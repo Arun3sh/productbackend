@@ -5,8 +5,25 @@ async function addProducts(data) {
 }
 
 async function getAllProducts(filter) {
-	console.log(filter);
 	return await client.db('products').collection('product_list').find(filter).toArray();
 }
 
-export { addProducts, getAllProducts };
+async function getAllProductsLimit(filter) {
+	return await client.db('products').collection('product_list').find(filter).limit(4).toArray();
+}
+
+async function getAllProductNameMaterial(filter) {
+	return await client.db('products').collection('product_list').find({}, filter).toArray();
+}
+
+async function deleteProductWithSamePrice(filter) {
+	return await client.db('products').collection('product_list').deleteMany(filter);
+}
+
+export {
+	addProducts,
+	getAllProducts,
+	getAllProductsLimit,
+	getAllProductNameMaterial,
+	deleteProductWithSamePrice,
+};
