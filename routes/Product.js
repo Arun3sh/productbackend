@@ -19,7 +19,6 @@ router.post('/add-product', async (request, response) => {
 // To Find all the information about each products
 router.get('/', async (request, response) => {
 	const filter = request.query;
-
 	// To Find the product price which are between x to y
 	if (filter.from && filter.to) {
 		const query = { product_price: { $gte: +filter.from, $lte: +filter.to } };
@@ -88,7 +87,9 @@ router.delete('/delete-product', async (request, response) => {
 	const filter = request.query;
 	const query = { product_price: +filter.price };
 	const result = await deleteProductWithSamePrice(query);
-	response.send(result);
+	result.deletedCount
+		? response.send({ result: `Deleted products with the price ₹ ${filter.price}` })
+		: response.send({ result: `No item at  ₹ ${filter.price}` });
 });
 
 export const ProductRouter = router;
